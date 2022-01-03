@@ -1,4 +1,4 @@
-package ru.job4j.caraccident.di;
+package ru.job4j.di;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
