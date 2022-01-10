@@ -1,4 +1,4 @@
-package ru.job4j.caraccident;
+package ru.job4j.caraccident.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;

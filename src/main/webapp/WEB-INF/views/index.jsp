@@ -15,18 +15,23 @@
 <body>
 <div class="container">
     <div class="row pt-3">
+        <h1>Нарушения</h1>
+    </div>
+    <div class="row">
         <table class="table">
             <thead>
             <tr>
-                <th scope="col">#</th>
-                <th scope="col">User</th>
+                <th scope="col">Название</th>
+                <th scope="col">Описание</th>
+                <th scope="col">Адрес</th>
             </tr>
             </thead>
             <tbody>
-            <c:forEach var="user" items="${users}" varStatus="loop">
+            <c:forEach var="accident" items="${accidents}">
                 <tr>
-                    <td><c:out value="${loop.index + 1}"/></td>
-                    <td><c:out value="${user}"/></td>
+                    <td><c:out value="${accident.name}"/></td>
+                    <td><c:out value="${accident.text}"/></td>
+                    <td><c:out value="${accident.address}"/></td>
                 </tr>
             </c:forEach>
             </tbody>
