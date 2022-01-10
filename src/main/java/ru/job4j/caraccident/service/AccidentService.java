@@ -17,4 +17,16 @@ public class AccidentService {
     public List<Accident> findAll() {
         return new ArrayList<>(accidentMem.findAll());
     }
+
+    public Accident findById(int id) {
+        Accident accident = accidentMem.findById(id);
+        if (accident == null) {
+            throw new IllegalArgumentException("Could not find an accident with id " + id);
+        }
+        return accident;
+    }
+
+    public void save(Accident accident) {
+        accidentMem.save(accident);
+    }
 }

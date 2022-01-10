@@ -1,10 +1,9 @@
 package ru.job4j.caraccident.model;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
+@NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @ToString
 @Getter
@@ -19,10 +18,4 @@ public class Accident {
     private String text;
 
     private String address;
-
-    public Accident(String name, String text, String address) {
-        this.name = name;
-        this.text = text;
-        this.address = address;
-    }
 }
