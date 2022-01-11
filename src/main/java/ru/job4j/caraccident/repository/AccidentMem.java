@@ -6,11 +6,13 @@ import ru.job4j.caraccident.model.Accident;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Repository
 public class AccidentMem {
 
     private final Map<Integer, Accident> accidents = new HashMap<>();
+    private final AtomicInteger accidentId = new AtomicInteger(0);
 
     public AccidentMem() {
         init();
@@ -40,6 +42,7 @@ public class AccidentMem {
                         "г. Москва, ул. Красная Пресня, 1"
                 )
         ));
+        accidentId.set(3);
     }
 
     public Collection<Accident> findAll() {
@@ -52,11 +55,7 @@ public class AccidentMem {
 
     public void save(Accident accident) {
         if (accident.getId() == 0) {
-            int id = accidents.values().stream()
-                    .mapToInt(Accident::getId)
-                    .max()
-                    .orElseThrow(() -> new IllegalArgumentException("Could not generate id"));
-            accident.setId(id + 1);
+            accident.setId(accidentId.incrementAndGet());
         }
         accidents.put(accident.getId(), accident);
     }
