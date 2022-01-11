@@ -29,6 +29,14 @@
                     </c:forEach>
                 </select>
             </div>
+            <div class="form-group">
+                <label>Статьи:</label>
+                <select name="ruleIds" multiple class="form-control">
+                    <c:forEach var="rule" items="${rules}" >
+                        <option value="${rule.id}" ${accident.rules != null && accident.rules.contains(rule) ? "selected" : ""}>${rule.name}</option>
+                    </c:forEach>
+                </select>
+            </div>
             <button type="submit" class="btn btn-primary">Обновить</button>
         </form>
     </div>
