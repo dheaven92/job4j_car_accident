@@ -11,32 +11,33 @@ import ru.job4j.caraccident.model.Accident;
 import ru.job4j.caraccident.service.AccidentService;
 
 @Controller
-public class IndexController {
+public class AccidentController {
 
     @Autowired
     private AccidentService accidentService;
 
     @GetMapping("/")
     public String index(Model model) {
-        model.addAttribute("accidents", accidentService.findAll());
+        model.addAttribute("accidents", accidentService.findAllAccidents());
         return "index";
     }
 
     @GetMapping("/create")
-    public String create() {
+    public String create(Model model) {
+        model.addAttribute("types", accidentService.findAllAccidentTypes());
         return "accident/create";
     }
 
     @GetMapping("/update")
     public String edit(@RequestParam("id") int id, Model model) {
-        Accident accident = accidentService.findById(id);
-        model.addAttribute("accident", accident);
+        model.addAttribute("accident", accidentService.findAccidentById(id));
+        model.addAttribute("types", accidentService.findAllAccidentTypes());
         return "accident/update";
     }
 
     @PostMapping("/save")
     public String create(@ModelAttribute Accident accident) {
-        accidentService.save(accident);
+        accidentService.saveAccident(accident);
         return "redirect:/";
     }
 }
