@@ -16,7 +16,7 @@ public class AccidentMem {
         init();
     }
 
-    public void init() {
+    private void init() {
         accidents.putAll(Map.of(
                 1, new Accident(
                         1,
