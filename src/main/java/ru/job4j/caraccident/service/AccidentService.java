@@ -41,6 +41,13 @@ public class AccidentService {
         return new ArrayList<>(accidentMem.findAllRules());
     }
 
+    public void setTypeToAccident(int typeId, Accident accident) {
+        AccidentType type = accidentMem.findAccidentTypeById(typeId);
+        if (type != null) {
+            accident.setType(type);
+        }
+    }
+
     public void setRulesToAccident(Set<Integer> ruleIds, Accident accident) {
         ruleIds.forEach(id -> {
             Rule rule = accidentMem.findRuleById(id);

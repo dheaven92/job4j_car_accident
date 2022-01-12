@@ -84,6 +84,10 @@ public class AccidentMem {
         return accidentTypes.values();
     }
 
+    public AccidentType findAccidentTypeById(int id) {
+        return accidentTypes.get(id);
+    }
+
     public Collection<Rule> findAllRules() {
         return rules.values();
     }

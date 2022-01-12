@@ -44,6 +44,7 @@ public class AccidentController {
 
     @PostMapping("/save")
     public String create(@ModelAttribute Accident accident, HttpServletRequest req) {
+        accidentService.setTypeToAccident(accident.getType().getId(), accident);
         Set<Integer> ruleIds = Arrays.stream(req.getParameterValues("ruleIds"))
                 .map(Integer::parseInt)
                 .collect(Collectors.toSet());
