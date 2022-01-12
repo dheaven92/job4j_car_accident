@@ -8,8 +8,10 @@ import ru.job4j.caraccident.model.Rule;
 import ru.job4j.caraccident.repository.AccidentMem;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class AccidentService {
@@ -48,8 +50,11 @@ public class AccidentService {
         }
     }
 
-    public void setRulesToAccident(Set<Integer> ruleIds, Accident accident) {
-        ruleIds.forEach(id -> {
+    public void setRulesToAccident(String[] ruleIds, Accident accident) {
+        Set<Integer> ids = Arrays.stream(ruleIds)
+                .map(Integer::parseInt)
+                .collect(Collectors.toSet());
+        ids.forEach(id -> {
             Rule rule = accidentMem.findRuleById(id);
             if (rule != null) {
                 accident.addRule(rule);

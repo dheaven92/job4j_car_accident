@@ -11,9 +11,6 @@ import ru.job4j.caraccident.model.Accident;
 import ru.job4j.caraccident.service.AccidentService;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Arrays;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Controller
 public class AccidentController {
@@ -45,10 +42,7 @@ public class AccidentController {
     @PostMapping("/save")
     public String create(@ModelAttribute Accident accident, HttpServletRequest req) {
         accidentService.setTypeToAccident(accident.getType().getId(), accident);
-        Set<Integer> ruleIds = Arrays.stream(req.getParameterValues("ruleIds"))
-                .map(Integer::parseInt)
-                .collect(Collectors.toSet());
-        accidentService.setRulesToAccident(ruleIds, accident);
+        accidentService.setRulesToAccident(req.getParameterValues("ruleIds"), accident);
         accidentService.saveAccident(accident);
         return "redirect:/";
     }
