@@ -1,4 +1,4 @@
-package ru.job4j.caraccident.repository;
+package ru.job4j.caraccident.repository.memory;
 
 import org.springframework.stereotype.Repository;
 import ru.job4j.caraccident.model.Accident;
@@ -9,14 +9,14 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Repository
-public class AccidentMem {
+public class AccidentMemoryRepository {
 
     private final Map<Integer, Accident> accidents = new HashMap<>();
     private final AtomicInteger accidentId = new AtomicInteger(0);
     private final Map<Integer, AccidentType> accidentTypes = new HashMap<>();
     private final Map<Integer, Rule> rules = new HashMap<>();
 
-    public AccidentMem() {
+    public AccidentMemoryRepository() {
         init();
     }
 
