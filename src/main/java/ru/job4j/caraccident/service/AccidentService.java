@@ -31,7 +31,9 @@ public class AccidentService {
         return accident;
     }
 
-    public void saveAccident(Accident accident) {
+    public void saveAccident(Accident accident, String[] rulesIds) {
+        setTypeToAccident(accident.getType().getId(), accident);
+        setRulesToAccident(rulesIds, accident);
         accidentMem.saveAccident(accident);
     }
 
@@ -43,14 +45,14 @@ public class AccidentService {
         return new ArrayList<>(accidentMem.findAllRules());
     }
 
-    public void setTypeToAccident(int typeId, Accident accident) {
+    private void setTypeToAccident(int typeId, Accident accident) {
         AccidentType type = accidentMem.findAccidentTypeById(typeId);
         if (type != null) {
             accident.setType(type);
         }
     }
 
-    public void setRulesToAccident(String[] ruleIds, Accident accident) {
+    private void setRulesToAccident(String[] ruleIds, Accident accident) {
         Set<Integer> ids = Arrays.stream(ruleIds)
                 .map(Integer::parseInt)
                 .collect(Collectors.toSet());
