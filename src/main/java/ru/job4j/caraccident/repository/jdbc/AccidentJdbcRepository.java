@@ -10,6 +10,9 @@ import ru.job4j.caraccident.model.AccidentType;
 import ru.job4j.caraccident.model.Rule;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.HashSet;
 import java.util.List;
 
 @Repository
@@ -19,28 +22,16 @@ public class AccidentJdbcRepository {
     private JdbcTemplate jdbcTemplate;
 
     public List<Accident> findAllAccidents() {
-        return jdbcTemplate.query("select * from accident",
-                (rs, row) -> {
-                    Accident accident = new Accident();
-                    accident.setId(rs.getInt("id"));
-                    accident.setName(rs.getString("name"));
-                    accident.setText(rs.getString("description"));
-                    accident.setAddress(rs.getString("address"));
-                    return accident;
-                });
+        return jdbcTemplate.query(
+                "select * from accident",
+                (rs, row) -> createAccident(rs)
+        );
     }
 
     public Accident findAccidentById(int id) {
         return jdbcTemplate.queryForObject(
                 "select * from accident where id = ?",
-                (rs, row) -> {
-                    Accident accident = new Accident();
-                    accident.setId(rs.getInt("id"));
-                    accident.setName(rs.getString("name"));
-                    accident.setText(rs.getString("description"));
-                    accident.setAddress(rs.getString("address"));
-                    return accident;
-                },
+                (rs, row) -> createAccident(rs),
                 id
         );
     }
@@ -146,5 +137,16 @@ public class AccidentJdbcRepository {
                 "delete from accident_rule where accident_id = ?",
                 accidentId
         );
+    }
+
+    private Accident createAccident(ResultSet rs) throws SQLException {
+        Accident accident = new Accident();
+        accident.setId(rs.getInt("id"));
+        accident.setName(rs.getString("name"));
+        accident.setText(rs.getString("description"));
+        accident.setAddress(rs.getString("address"));
+        accident.setType(findAccidentTypeById(rs.getInt("type_id")));
+        accident.setRules(new HashSet<>(findAllRulesByAccidentId(rs.getInt("id"))));
+        return accident;
     }
 }

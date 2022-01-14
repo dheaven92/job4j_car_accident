@@ -2,6 +2,7 @@ package ru.job4j.caraccident.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.job4j.caraccident.model.Accident;
 import ru.job4j.caraccident.model.AccidentType;
 import ru.job4j.caraccident.model.Rule;
@@ -30,6 +31,7 @@ public class AccidentService {
         return accident;
     }
 
+    @Transactional
     public void saveAccident(Accident accident, String[] rulesIds) {
         Accident savedAccident = accident.getId() == 0
                 ? accidentRepository.createAccident(accident)
