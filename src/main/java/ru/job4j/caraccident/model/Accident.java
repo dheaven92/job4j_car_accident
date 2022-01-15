@@ -2,28 +2,42 @@ package ru.job4j.caraccident.model;
 
 import lombok.*;
 
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@ToString
+@ToString(exclude = "rules")
 @Getter
 @Setter
+@Table(name = "accident")
+@Entity
 public class Accident {
 
     @EqualsAndHashCode.Include
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     private String name;
 
+    @Column(name = "description")
     private String text;
 
     private String address;
 
+    @ManyToOne
+    @JoinColumn(name = "type_id")
     private AccidentType type;
 
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(
+            name = "accident_rule",
+            joinColumns = @JoinColumn(name = "accident_id"),
+            inverseJoinColumns = @JoinColumn(name = "rule_id")
+    )
     private Set<Rule> rules;
 
     public void addRule(Rule rule) {

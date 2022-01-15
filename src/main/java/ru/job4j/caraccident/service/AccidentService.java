@@ -6,18 +6,16 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.job4j.caraccident.model.Accident;
 import ru.job4j.caraccident.model.AccidentType;
 import ru.job4j.caraccident.model.Rule;
-import ru.job4j.caraccident.repository.jdbc.AccidentJdbcRepository;
+import ru.job4j.caraccident.repository.hbm.AccidentHbmRepository;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 public class AccidentService {
 
     @Autowired
-    private AccidentJdbcRepository accidentRepository;
+    private AccidentHbmRepository accidentRepository;
 
     public List<Accident> findAllAccidents() {
         return new ArrayList<>(accidentRepository.findAllAccidents());
@@ -33,10 +31,8 @@ public class AccidentService {
 
     @Transactional
     public void saveAccident(Accident accident, String[] rulesIds) {
-        Accident savedAccident = accident.getId() == 0
-                ? accidentRepository.createAccident(accident)
-                : accidentRepository.updateAccident(accident);
-        setRulesToAccident(rulesIds, savedAccident.getId());
+        setRulesToAccident(rulesIds, accident);
+        accidentRepository.saveAccident(accident);
     }
 
     public List<AccidentType> findAllAccidentTypes() {
@@ -47,11 +43,15 @@ public class AccidentService {
         return new ArrayList<>(accidentRepository.findAllRules());
     }
 
-    private void setRulesToAccident(String[] ruleIds, int accidentId) {
-        accidentRepository.deleteAccidentRule(accidentId);
-        Arrays.stream(ruleIds)
+    private void setRulesToAccident(String[] ruleIds, Accident accident) {
+        Set<Integer> ids = Arrays.stream(ruleIds)
                 .map(Integer::parseInt)
-                .collect(Collectors.toSet())
-                .forEach(ruleId -> accidentRepository.saveAccidentRule(accidentId, ruleId));
+                .collect(Collectors.toSet());
+        ids.forEach(id -> {
+            Rule rule = accidentRepository.findRuleById(id);
+            if (rule != null) {
+                accident.addRule(rule);
+            }
+        });
     }
 }
