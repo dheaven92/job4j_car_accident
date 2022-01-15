@@ -13,6 +13,9 @@ import java.util.Set;
 @Getter
 @Setter
 @Table(name = "accident")
+@NamedEntityGraph(name = "Accident.rules",
+        attributeNodes = @NamedAttributeNode("rules")
+)
 @Entity
 public class Accident {
 
