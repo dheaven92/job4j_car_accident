@@ -10,20 +10,23 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import javax.sql.DataSource;
+
 @EnableWebSecurity
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Autowired
+    private DataSource dataSource;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Override
     protected void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
-        authenticationManagerBuilder.inMemoryAuthentication()
-                .passwordEncoder(passwordEncoder)
-                .withUser("user").password(passwordEncoder.encode("123")).roles("USER")
-                .and()
-                .withUser("admin").password(passwordEncoder.encode("123")).roles("USER", "ADMIN");
+        authenticationManagerBuilder.jdbcAuthentication()
+                .dataSource(dataSource)
+                .withUser("user").password(passwordEncoder.encode("123")).roles("USER");
     }
 
     @Bean
