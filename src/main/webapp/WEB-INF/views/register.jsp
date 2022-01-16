@@ -5,24 +5,10 @@
 <body>
 <div class="container">
    <div class="row pt-3">
-      <h1>Войти</h1>
+      <h1>Регистрация</h1>
    </div>
-   <c:if test="${not empty errorMessage}">
-      <div class="row pt-3">
-         <div class="alert alert-danger">
-            ${errorMessage}
-         </div>
-      </div>
-   </c:if>
-   <c:if test="${not empty successMessage}">
-      <div class="row pt-3">
-         <div class="alert alert-success">
-               ${successMessage}
-         </div>
-      </div>
-   </c:if>
    <div class="row pt-3">
-      <form action="<c:url value='/login'/>" method='POST'>
+      <form action="<c:url value='/register'/>" method='POST'>
          <div class="form-group">
             <label>Логин:</label>
             <input type='text' name='username' class="form-control" required>
@@ -31,8 +17,7 @@
             <label>Пароль:</label>
             <input type='password' name='password' class="form-control" required>
          </div>
-         <button type="submit" class="btn btn-primary">Войти</button>
-         <a href="<c:url value='/register'/>">Зарегистрироваться</a>
+         <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
       </form>
    </div>
 </div>
