@@ -5,7 +5,7 @@
 <body>
 <div class="container">
     <div class="row pt-3">
-        <h1>Добавить инцедент</h1>
+        <h1>Добавить инцидент</h1>
     </div>
     <div class="row pt-3">
         <form action="<c:url value='/save'/>" method='POST'>

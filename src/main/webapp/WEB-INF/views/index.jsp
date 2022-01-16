@@ -3,9 +3,10 @@
 <html>
 <jsp:include page="header.jsp" />
 <body>
+<jsp:include page="navbar.jsp" />
 <div class="container">
     <div class="row pt-3">
-        <h1>Инцеденты</h1>
+        <h1>Инциденты</h1>
     </div>
     <div class="row pt-3">
         <a href="<c:url value='/create'/>" class="btn btn-primary">Добавить инцидент</a>
