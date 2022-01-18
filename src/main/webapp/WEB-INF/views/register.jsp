@@ -7,6 +7,13 @@
    <div class="row pt-3">
       <h1>Регистрация</h1>
    </div>
+   <c:if test="${not empty errorMessage}">
+      <div class="row pt-3">
+         <div class="alert alert-danger">
+               ${errorMessage}
+         </div>
+      </div>
+   </c:if>
    <div class="row pt-3">
       <form action="<c:url value='/register'/>" method='POST'>
          <div class="form-group">
